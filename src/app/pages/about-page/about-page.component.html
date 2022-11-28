@@ -1,1 +1,23 @@
-<p>about-page works!</p>
+<button
+  (mousedown)="log()"
+  class="bg-black text-white"
+>Mousedown</button>
+
+<button
+  (keydown)="logKeyDown()"
+  class="bg-black text-white"
+>Keydown</button>
+
+<button #myClean class="bg-green-800 text-white">Clean
+</button>
+
+<canvas #myCanvas class="w-1/2 h-1/2 bg-gray-500">
+
+</canvas>
+
+<!--<div *ngIf="products">-->
+<!--  <app-product-->
+<!--    *ngFor="let product of products"-->
+<!--    [product]=product-->
+<!--  ></app-product>-->
+<!--</div>-->
