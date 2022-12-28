@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {IProduct} from "../../models/product";
 import {ProductsService} from "../../services/products.service";
-import {filter, from, fromEvent, interval, map, take} from "rxjs";
+import {delay, filter, from, fromEvent, interval, map, take, tap, timeout} from "rxjs";
 import {scan} from "rxjs/operators";
 import {products} from "../../data/products";
 
@@ -14,6 +14,16 @@ export class AboutPageComponent implements AfterViewInit, OnInit {
   // products: IProduct[] = []
   @ViewChild('myCanvas') canvas: ElementRef;
   @ViewChild('myClean') clearButton: ElementRef;
+
+  products$ = from(products).pipe(
+    tap(()=> {timeout(5000)
+      delay(10000)
+    console.log("afdadsfsf")}),
+    delay(10000),
+    filter(v => v.rating.rate < 3),
+    map(v => v.title),
+    scan((acc: string[], v) => acc.concat(v), [])
+  )
 
   constructor(
     public productsService: ProductsService) { }
@@ -30,13 +40,8 @@ export class AboutPageComponent implements AfterViewInit, OnInit {
     // )
     // arr$.subscribe(val => console.log(val));
 
-    from(products).pipe(
-      // take(products.length),
-      filter(v=> v.rating.rate < 3),
-      map(v => v.title),
-      scan((acc:string[], v) => acc.concat(v), [])
-    )
-    .subscribe(r => console.log(r))
+
+    this.products$.subscribe(r => console.log(r))
 
   // this.productsService.getAll().pipe(
   //     map(arrayOfArrays => arrayOfArrays.map(
